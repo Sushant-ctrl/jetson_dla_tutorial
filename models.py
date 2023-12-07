@@ -73,3 +73,14 @@ MODELS = {
     'model_gn': ModelGN,
     'model_bn': ModelBN
 }
+
+data = torch.zeros(1, 3, 32, 32).cuda()
+
+torch.onnx.export(model_gn, data, 'model_gn.onnx',
+    input_names=['input'],
+    output_names=['output'],
+    dynamic_axes={
+        'input': {0: 'batch_size'},
+        'output': {0: 'batch_size'}
+    }
+)
